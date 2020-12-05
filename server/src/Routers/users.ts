@@ -44,6 +44,9 @@ UserRouter.post('/user/signup', async (req: Request, res: Response<{}>) => {
 		return bcrypt.hash(password, 7, async (err, hashedPassword) => {
 			if (err) return res.status(500).send({ error: err.message });
 			const user = new userModel({ name, usn, password: hashedPassword });
+			await user.validate(err => {
+				if (err) res.send({ error: err });
+			});
 			await user.save();
 			res.send(user);
 		});
@@ -51,6 +54,16 @@ UserRouter.post('/user/signup', async (req: Request, res: Response<{}>) => {
 	return res.status(401).send({ error: 'Error creating user' });
 });
 
-UserRouter.get('/user/forgotpassword', (req: Request, res: Response<string>) => {
-	res.send('ForgotPassword');
+UserRouter.get('/user/forgotpassword', async (req: Request, res: Response) => {
+	const name = req.body.name;
+	const usn = req.body.usn;
+	const password = req.body.password;
+
+	await userModel.updateOne({ name, usn }, { password }, { runValidators: true }, (err, resp) => {
+		if (err) {
+			return res.send({ error: 'Error updating password!!!' });
+		} else {
+			return res.send({ msg: 'Password Update successfully' });
+		}
+	});
 });
