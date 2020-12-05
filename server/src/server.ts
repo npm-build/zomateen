@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
 import { UserRouter } from './Routers/users';
 import './DB/db';
 
 const app = express();
+app.use(bodyParser.json());
 app.use(UserRouter);
 
 app.get('/', (req: Request, res: Response<string>) => {
