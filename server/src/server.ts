@@ -12,3 +12,12 @@ app.get('/', (req: Request, res: Response<string>) => {
 });
 
 app.listen(8000, () => console.log('Server listening on PORT 8000'));
+
+// Auto Increment noOfCancels example
+
+// counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter)   {
+// 	if(error)
+// 		return next(error);
+// 	doc.testvalue = counter.seq;
+// 	next();
+// });
