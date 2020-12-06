@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.scss';
+import './styles/App.scss';
 import Home from './pages/Home.pages';
 import Login from './pages/Login.pages';
 import SignUp from './pages/Signup.pages';
