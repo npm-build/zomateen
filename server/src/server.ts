@@ -4,7 +4,7 @@ import { UserRouter } from './Routers/users';
 import './DB/db';
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(UserRouter);
 
 app.get('/', (req: Request, res: Response<string>) => {
