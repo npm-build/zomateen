@@ -3,12 +3,12 @@
 	margin: 3px 0;
 	height: 70px;
 	border-radius: 0 20px 20px 0;
-	background-color: #fff;
+	background-color: #fbb346;
 	i {
-		color: black;
+		color: white;
 	}
 	li {
-		color: black;
+		color: white;
 	}
 }
 
@@ -17,22 +17,24 @@
 	margin: 2px 0;
 	width: 7px;
 	height: 70px;
-	background-color: #ffe7c2;
+	background-color: #fbb346;
 	border-radius: 10px;
 	border-radius: 0 10px 10px 0;
 }
 
 .div {
 	transition: all 0.1s ease;
-	margin: 2px 0;
+	margin: 1px 0;
 	width: 7px;
-	height: 70px;
+	height: 73px;
 }
 
 .close {
-	max-width: 90px;
+	transition: all 0.3s ease;
+	width: 90px;
 
 	#nav-links a {
+		width: 65px;
 		height: 74px;
 
 		i {
@@ -47,7 +49,7 @@
 }
 
 .open {
-	max-width: 230px;
+	width: 226px;
 
 	#nav-links a li {
 		transform: translateX(0);
@@ -59,8 +61,8 @@
 	transition: all 0.3s ease;
 	font-family: 'Open Sans', sans-serif;
 	height: 100vh;
-	color: white;
-	background-color: #ff9f0d;
+	color: black;
+	background-color: #f0f0f0;
 
 	#selected-divs {
 		position: absolute;
@@ -78,8 +80,8 @@
 			display: flex;
 			height: 74px;
 			transition: all 0.3s ease;
-			margin: 0px 13px;
-			color: #fff;
+			margin: 5px 13px;
+			color: black;
 
 			i {
 				margin: 30px 20px 0;
@@ -94,7 +96,7 @@
 		}
 
 		a:hover {
-			background-color: #ffe7c2;
+			background-color: #f1c480;
 			color: black;
 			border-radius: 10px;
 		}
@@ -103,7 +105,7 @@
 	#burger {
 		cursor: pointer;
 		position: absolute;
-		top: 8vh;
+		top: 25px;
 		left: 32px;
 		display: flex;
 		flex-direction: column;
@@ -115,7 +117,7 @@
 			width: 25px;
 			transition: all 0.3s ease;
 			height: 3px;
-			background-color: #fff;
+			background-color: black;
 			border-radius: 30%;
 		}
 

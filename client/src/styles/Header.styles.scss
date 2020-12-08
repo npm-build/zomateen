@@ -1,0 +1,105 @@
+#header {
+	width: 100%;
+	height: 84px;
+	box-shadow: 0px 5px 5px #888888;
+	font-family: 'Bebas Neue', cursive;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	#logo {
+		height: 40px;
+		padding: 0 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		#logo-head {
+			font-size: 32px;
+		}
+
+		#status {
+			margin-left: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			i {
+				margin: 0 3px;
+				font-size: 12px;
+				color: #7cea60;
+			}
+
+			p {
+				margin: 0 3px;
+				font-size: 18px;
+				color: #7cea60;
+			}
+		}
+	}
+
+	.search-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-family: 'Open Sans', sans-serif;
+
+		input[type='text'] {
+			padding: 5px 6px;
+			font-size: 17px;
+			border: none;
+			border-radius: 0 7px 7px 0;
+			background-color: #f5f8fa;
+		}
+
+		form {
+			margin: 0 20px;
+
+			button {
+				margin-left: 16px;
+				background-color: #f5f8fa;
+				font-size: 17px;
+				border: none;
+				border-radius: 7px 0 0 7px;
+				cursor: pointer;
+
+				i {
+					color: rgb(153, 152, 152);
+					margin: 6px 10px;
+				}
+			}
+
+			button:hover {
+				transition: all 0.3s ease;
+				background-color: rgb(148, 147, 147);
+
+				i {
+					color: #fff;
+				}
+			}
+		}
+
+		form button:after {
+			content: '';
+			width: 50%;
+			border-right: 1px solid gray;
+		}
+
+		#profile {
+			margin: 0 20px;
+			padding: 5px 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border: 1px solid #fbb346;
+			border-radius: 15px;
+
+			#profile-pic {
+				margin-right: 10px;
+				width: 25px;
+				object-fit: contain;
+				border-radius: 100%;
+			}
+		}
+	}
+}

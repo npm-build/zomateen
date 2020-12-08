@@ -99,6 +99,13 @@ const NavBar: React.FC = () => {
 				selected_div_3!.classList.toggle('highlight');
 			}
 		});
+
+		return () => {
+			burger?.removeEventListener('click', () => console.log('Event Listener removed'));
+			favoriteLink?.removeEventListener('click', () => console.log('Event Listener removed'));
+			walletLink?.removeEventListener('click', () => console.log('Event Listener removed'));
+			cartLink?.removeEventListener('click', () => console.log('Event Listener removed'));
+		};
 	}, []);
 
 	return (
