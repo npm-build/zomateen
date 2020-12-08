@@ -1,10 +1,10 @@
 #home-grid {
-	display: grid;
-	grid-template-columns: 1fr 14fr;
-	grid-template-rows: 84px auto;
+  display: grid;
+  grid-template-columns: min-content 14fr;
+  grid-template-rows: 84px auto;
 
-	#content {
-		grid-row: 2/3;
-		grid-column: 2;
-	}
+  #content {
+    grid-row: 2/3;
+    grid-column: 2;
+  }
 }
