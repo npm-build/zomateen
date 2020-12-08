@@ -95,7 +95,6 @@ const NavBar: React.FC = () => {
 				selected_div_3!.classList.toggle('highlight');
 			} else {
 				cartLink!.classList.toggle('selected-div');
-
 				selected_div_3!.classList.toggle('highlight');
 			}
 		});

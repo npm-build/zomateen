@@ -1,19 +1,24 @@
 import React from 'react';
-import './styles/App.scss';
+import Header from './components/Header';
+import Navbar from './components/NavBar';
 import Home from './pages/Home.pages';
-import Login from './pages/Login.pages';
-import SignUp from './pages/Signup.pages';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { AnimateSharedLayout } from 'framer-motion';
+import './styles/Home.styles.scss';
 
 function App() {
 	return (
-		<Router>
-			<Switch>
-				<Route path='/' exact component={Home} />
-				<Route path='/login' component={Login} />
-				<Route path='/signup' component={SignUp} />
-			</Switch>
-		</Router>
+		<AnimateSharedLayout>
+			<div id='home-grid'>
+				<Navbar />
+				<Header />
+				<div id='content'>
+					<Switch>
+						<Route path='/' exact component={Home} />
+					</Switch>
+				</div>
+			</div>
+		</AnimateSharedLayout>
 	);
 }
 

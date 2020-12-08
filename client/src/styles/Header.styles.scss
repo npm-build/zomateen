@@ -1,7 +1,9 @@
 #header {
+	grid-row: 1;
+	grid-column: 2;
 	width: 100%;
 	height: 84px;
-	box-shadow: 0px 5px 5px #888888;
+	box-shadow: 0px 5px 10px #b3b2b2;
 	font-family: 'Bebas Neue', cursive;
 	display: flex;
 	align-items: center;

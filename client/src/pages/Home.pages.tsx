@@ -1,12 +1,10 @@
-import Header from '../components/Header';
-import Navbar from '../components/NavBar';
+// import { motion } from 'framer-motion';
 import '../styles/Home.styles.scss';
 
 const HomePage: React.FC = () => {
 	return (
-		<div id='home-grid'>
-			<Navbar />
-			<Header />
+		<div>
+			<h1>Hello World</h1>
 		</div>
 	);
 };

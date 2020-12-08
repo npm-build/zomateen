@@ -1,8 +1,9 @@
 import React from 'react';
+// import { motion } from 'framer-motion';
 
 const LoginPage: React.FC = () => {
 	return (
-		<div className='container'>
+		<div id='container'>
 			<div className='base-container'>
 				<div className='header'>Login</div>
 				<div className='info'>
