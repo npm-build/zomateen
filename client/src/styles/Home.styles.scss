@@ -8,3 +8,19 @@
     grid-column: 2;
   }
 }
+
+.cool-id {
+  img {
+    margin: 10% 0 0 30%;
+    width: 300px;
+    object-fit: contain;
+  }
+}
+
+#cool-id {
+  img {
+    margin: 10% 0 0 30%;
+    width: 500px;
+    object-fit: contain;
+  }
+}
