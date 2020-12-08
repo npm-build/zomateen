@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import wallet from '../assets/img/wallet.svg';
+import favorite from '../assets/img/heart.svg';
+import cart from '../assets/img/shopping-cart.svg';
 import '../styles/SideNavbar.styles.scss';
 
 const NavBar: React.FC = () => {
@@ -123,15 +126,15 @@ const NavBar: React.FC = () => {
 
 			<ul id='nav-links'>
 				<Link id='wallet-link' to='/'>
-					<i className='fas fa-lg fa-wallet' />
+					<img src={wallet} alt='wallet' />
 					<li>Wallet</li>
 				</Link>
-				<Link id='favorite-link' to='/'>
-					<i className='far fa-lg fa-heart' />
+				<Link id='favorite-link' to='/favorites'>
+					<img src={favorite} alt='favorite' />
 					<li>Favorites</li>
 				</Link>
 				<Link id='cart-link' to='/'>
-					<i className='fas fa-lg fa-shopping-cart' />
+					<img src={cart} alt='cart' />
 					<li>Cart</li>
 				</Link>
 			</ul>

@@ -8,10 +8,14 @@ export interface UserType extends Document {
 }
 
 export const userSchema: Schema = new Schema({
-	name: { type: String, required: true, unique: true },
+	firstName: { type: String, required: true },
+	lastName: { type: String, required: true },
+	userName: { type: String, required: true },
 	usn: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
-	noOfCancels: { type: Number, default: 0 }
+	phone: { type: Number, required: true, unique: true },
+	noOfCancels: { type: Number, default: 0 },
+	reviews: [String]
 });
 
 // Creating the Models

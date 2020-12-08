@@ -5,7 +5,7 @@
 	border-radius: 0 20px 20px 0;
 	background-color: #fbb346;
 
-	i {
+	img {
 		color: white;
 	}
 	li {
@@ -19,7 +19,6 @@
 	width: 7px;
 	height: 70px;
 	background-color: #fbb346;
-	border-radius: 10px;
 	border-radius: 0 10px 10px 0;
 }
 
@@ -38,8 +37,8 @@
 		width: 65px;
 		height: 74px;
 
-		i {
-			margin: 27px 20px;
+		img {
+			margin: 20px 20px;
 		}
 
 		li {
@@ -53,6 +52,10 @@
 .open {
 	animation: fade_in 0.3s;
 	width: 226px;
+
+	img {
+		margin: 20px 20px;
+	}
 
 	#nav-links a li {
 		transform: translateX(0);
@@ -89,8 +92,9 @@
 			margin: 5px 13px;
 			color: black;
 
-			i {
-				margin: 30px 20px 0;
+			img {
+				width: 30px;
+				object-fit: contain;
 			}
 
 			li {
@@ -157,5 +161,15 @@
 
 	to {
 		opacity: 1;
+	}
+}
+
+@keyframes fade_out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
 	}
 }
