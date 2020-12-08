@@ -6,10 +6,10 @@ const NavBar: React.FC = () => {
 	// NavBar Animation
 
 	useEffect(() => {
+		const sideNav = document.querySelector('#sidenav');
 		const burger = document.querySelector('#burger');
-		const nav = document.querySelector('#nav-links');
-		const navLinks = document.querySelectorAll('#nav-links a li');
-		const body = document.querySelector('body');
+		// const navLinks = document.querySelectorAll('#nav-links a li');
+		// const body = document.querySelector('body');
 		// const width = window.screen.width;
 
 		// if (width < 900) {
@@ -25,10 +25,9 @@ const NavBar: React.FC = () => {
 		// });
 
 		burger!.addEventListener('click', () => {
-			//to stop scrolling
-			body!.classList.toggle('fixed-position');
 			// Toggle Nav
-			nav!.classList.toggle('open');
+			sideNav!.classList.toggle('close');
+			sideNav!.classList.toggle('open');
 			// Burger Animation
 			burger!.classList.toggle('toggle');
 		});
@@ -37,31 +36,73 @@ const NavBar: React.FC = () => {
 		const walletLink = document.getElementById('wallet-link');
 		const favoriteLink = document.getElementById('favorite-link');
 		const cartLink = document.getElementById('cart-link');
+		const selected_div_1 = document.getElementById('1');
+		const selected_div_2 = document.getElementById('2');
+		const selected_div_3 = document.getElementById('3');
 
 		walletLink!.addEventListener('click', () => {
-			walletLink!.classList.toggle('selected-div');
-			const selected_div_1 = document.getElementById('1');
+			if (favoriteLink!.classList.contains('selected-div')) {
+				favoriteLink!.classList.toggle('selected-div');
+				walletLink!.classList.toggle('selected-div');
 
-			selected_div_1!.classList.toggle('highlight');
+				selected_div_2!.classList.toggle('highlight');
+				selected_div_1!.classList.toggle('highlight');
+			} else if (cartLink!.classList.contains('selected-div')) {
+				cartLink!.classList.toggle('selected-div');
+				walletLink!.classList.toggle('selected-div');
+
+				selected_div_3!.classList.toggle('highlight');
+				selected_div_1!.classList.toggle('highlight');
+			} else {
+				walletLink!.classList.toggle('selected-div');
+
+				selected_div_1!.classList.toggle('highlight');
+			}
 		});
 
 		favoriteLink!.addEventListener('click', () => {
-			favoriteLink!.classList.toggle('selected-div');
-			const selected_div_2 = document.getElementById('2');
+			if (walletLink!.classList.contains('selected-div')) {
+				walletLink!.classList.toggle('selected-div');
+				favoriteLink!.classList.toggle('selected-div');
 
-			selected_div_2!.classList.toggle('highlight');
+				selected_div_1!.classList.toggle('highlight');
+				selected_div_2!.classList.toggle('highlight');
+			} else if (cartLink!.classList.contains('selected-div')) {
+				cartLink!.classList.toggle('selected-div');
+				favoriteLink!.classList.toggle('selected-div');
+
+				selected_div_3!.classList.toggle('highlight');
+				selected_div_2!.classList.toggle('highlight');
+			} else {
+				favoriteLink!.classList.toggle('selected-div');
+
+				selected_div_2!.classList.toggle('highlight');
+			}
 		});
 
 		cartLink!.addEventListener('click', () => {
-			cartLink!.classList.toggle('selected-div');
-			const selected_div_3 = document.getElementById('3');
+			if (walletLink!.classList.contains('selected-div')) {
+				walletLink!.classList.toggle('selected-div');
+				cartLink!.classList.toggle('selected-div');
 
-			selected_div_3!.classList.toggle('highlight');
+				selected_div_1!.classList.toggle('highlight');
+				selected_div_3!.classList.toggle('highlight');
+			} else if (favoriteLink!.classList.contains('selected-div')) {
+				favoriteLink!.classList.toggle('selected-div');
+				cartLink!.classList.toggle('selected-div');
+
+				selected_div_2!.classList.toggle('highlight');
+				selected_div_3!.classList.toggle('highlight');
+			} else {
+				cartLink!.classList.toggle('selected-div');
+
+				selected_div_3!.classList.toggle('highlight');
+			}
 		});
 	}, []);
 
 	return (
-		<nav id='sidenav'>
+		<nav id='sidenav' className='close'>
 			<div id='burger'>
 				<div className='line toggle line1' />
 				<div className='line toggle line2' />

@@ -1,6 +1,5 @@
 .selected-div {
 	color: black;
-	width: 8px;
 	margin: 3px 0;
 	height: 70px;
 	border-radius: 0 20px 20px 0;
@@ -24,16 +23,42 @@
 }
 
 .div {
-	transition: all 0.3s ease;
+	transition: all 0.1s ease;
 	margin: 2px 0;
 	width: 7px;
 	height: 70px;
 }
 
+.close {
+	max-width: 90px;
+
+	#nav-links a {
+		height: 74px;
+
+		i {
+			margin: 27px 20px;
+		}
+
+		li {
+			transform: translateX(30px);
+			visibility: hidden;
+		}
+	}
+}
+
+.open {
+	max-width: 230px;
+
+	#nav-links a li {
+		transform: translateX(0);
+		visibility: visible;
+	}
+}
+
 #sidenav {
+	transition: all 0.3s ease;
 	font-family: 'Open Sans', sans-serif;
 	height: 100vh;
-	max-width: 226px;
 	color: white;
 	background-color: #ff9f0d;
 
@@ -43,30 +68,26 @@
 	}
 
 	#nav-links {
+		transition: all 0.3s ease;
 		padding: 100px 0;
 		display: flex;
 		flex-direction: column;
 		padding-top: 200px;
 
 		a {
+			display: flex;
+			height: 74px;
 			transition: all 0.3s ease;
 			margin: 0px 13px;
-			width: 200px;
 			color: #fff;
 
-			// //delete this
-			// background-color: #ffe7c2;
-			// color: black;
-			// border-radius: 10px;
-			// //till here
-
 			i {
-				margin-left: 20px;
+				margin: 30px 20px 0;
 			}
 
 			li {
+				list-style: none;
 				font-size: 24px;
-				display: inline-block;
 				padding: 20px;
 				transition: all 0.3s ease;
 			}
@@ -80,7 +101,6 @@
 	}
 
 	#burger {
-		// display: none;
 		cursor: pointer;
 		position: absolute;
 		top: 8vh;
