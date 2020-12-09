@@ -111,34 +111,36 @@ const NavBar: React.FC = () => {
 	}, []);
 
 	return (
-		<nav id='sidenav' className='close'>
-			<div id='burger'>
-				<div className='line toggle line1' />
-				<div className='line toggle line2' />
-				<div className='line toggle line3' />
-			</div>
+		<div id='nav'>
+			<nav id='sidenav' className='close'>
+				<div id='burger'>
+					<div className='line toggle line1' />
+					<div className='line toggle line2' />
+					<div className='line toggle line3' />
+				</div>
 
-			<ul id='selected-divs'>
-				<li id='1' className='div' />
-				<li id='2' className='div' />
-				<li id='3' className='div' />
-			</ul>
+				<ul id='selected-divs'>
+					<li id='1' className='div' />
+					<li id='2' className='div' />
+					<li id='3' className='div' />
+				</ul>
 
-			<ul id='nav-links'>
-				<Link id='wallet-link' to='/'>
-					<img src={wallet} alt='wallet' />
-					<li>Wallet</li>
-				</Link>
-				<Link id='favorite-link' to='/favorites'>
-					<img src={favorite} alt='favorite' />
-					<li>Favorites</li>
-				</Link>
-				<Link id='cart-link' to='/'>
-					<img src={cart} alt='cart' />
-					<li>Cart</li>
-				</Link>
-			</ul>
-		</nav>
+				<ul id='nav-links'>
+					<Link id='wallet-link' to='/'>
+						<img src={wallet} alt='wallet' />
+						<li>Wallet</li>
+					</Link>
+					<Link id='favorite-link' to='/favorites'>
+						<img src={favorite} alt='favorite' />
+						<li>Favorites</li>
+					</Link>
+					<Link id='cart-link' to='/'>
+						<img src={cart} alt='cart' />
+						<li>Cart</li>
+					</Link>
+				</ul>
+			</nav>
+		</div>
 	);
 };
 
