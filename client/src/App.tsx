@@ -1,9 +1,9 @@
-import React from 'react';
 import Header from './components/Header';
 import Navbar from './components/NavBar';
-import FavoritesPage from './pages/Favorites.pages';
-import Home from './pages/Home.pages';
-import IndividualItem from './pages/IndividualItem.pages';
+import UserHome from './pages/User/Home.pages';
+import UserIndividualItem from './pages/User/IndividualItem.pages';
+import UserFavoritesPage from './pages/User/Favorites.pages';
+import AdminHome from './pages/Admin/Home.pages';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import './styles/Home.styles.scss';
@@ -18,9 +18,11 @@ function App() {
 			<div id='content'>
 				<AnimatePresence exitBeforeEnter>
 					<Switch location={location} key={location.pathname}>
-						<Route path='/' exact component={Home} />
-						<Route path='/food/:foodId' exact component={IndividualItem} />
-						<Route path='/favorites' component={FavoritesPage} />
+						<Route path='/user/home' exact component={UserHome} />
+						<Route path='/user/food/:foodId' exact component={UserIndividualItem} />
+						<Route path='/user/favorites' component={UserFavoritesPage} />
+						<Route path='/admin/home' component={AdminHome} />
+						{/* <Route path='/admin/home' component={AdminHome} /> */}
 					</Switch>
 				</AnimatePresence>
 			</div>

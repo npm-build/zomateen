@@ -24,6 +24,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
+		"start-prod": "react-scripts build && npx serve -s build",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {

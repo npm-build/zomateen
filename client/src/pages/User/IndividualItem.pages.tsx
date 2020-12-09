@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import dosa from '../assets/img/dosa.png';
-import back from '../assets/img/arrow-left.svg';
-import AddToCartBtn from '../components/AddToCartButton';
-import UserReview from '../components/UserReview';
-import FoodItem from '../components/FoodItem';
+import dosa from '../../assets/img/dosa.png';
+import back from '../../assets/img/arrow-left.svg';
+import AddToCartBtn from '../../components/AddToCartButton';
+import UserReview from '../../components/UserReview';
+import FoodItem from '../../components/FoodItem';
+import { pageVariants, pageTransition } from '../../utils/Animations';
 import { motion } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
-import '../styles/IndividualItem.styles.scss';
+import '../../styles/IndividualItem.styles.scss';
 
 const IndividualItem: React.FC<any> = ({ match }) => {
 	const {
@@ -23,30 +24,6 @@ const IndividualItem: React.FC<any> = ({ match }) => {
 		console.log(foodId);
 		getFood();
 	}, []);
-
-	const pageVariants = {
-		initial: {
-			opacity: 0,
-			x: '-100vw',
-			scale: 0.8
-		},
-		in: {
-			opacity: 1,
-			x: 0,
-			scale: 1
-		},
-		out: {
-			opacity: 0,
-			x: '100vw',
-			scale: 1.2
-		}
-	};
-
-	const pageTransition = {
-		type: 'tween',
-		ease: 'anticipate',
-		duration: 0.5
-	};
 
 	return (
 		<motion.div
@@ -83,15 +60,6 @@ const IndividualItem: React.FC<any> = ({ match }) => {
 				</div>
 
 				<div className='individual-food-item-similar-food'>
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />

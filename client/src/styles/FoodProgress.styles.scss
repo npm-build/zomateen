@@ -1,0 +1,59 @@
+.FoodProgress {
+	position: relative;
+	height: 120px;
+	width: 310px;
+	display: flex;
+	box-shadow: 0 5px 8px gray;
+	border-radius: 10px;
+	background-color: #fff;
+
+	.progress-bar {
+		position: absolute;
+		width: 6px;
+		border-radius: 10px;
+		height: 99%;
+	}
+
+	.FoodProgressContent {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+
+		.FoodProgressImg {
+			width: 65px;
+			margin-left: 10px;
+			object-fit: contain;
+		}
+
+		.FoodProgressText {
+			margin-top: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: space-between;
+
+			h6 {
+				font-weight: 600;
+				margin: 0;
+			}
+
+			p {
+				font-size: 14px;
+				margin-top: 10px;
+			}
+		}
+
+		.FoodProgressExtra {
+			margin-right: 10px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: space-between;
+
+			.food-progress-btn {
+				width: 64px;
+			}
+		}
+	}
+}

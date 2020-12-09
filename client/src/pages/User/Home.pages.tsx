@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Tabs, Tab } from 'react-bootstrap';
-import FoodItem from '../components/FoodItem';
-import '../styles/Home.styles.scss';
+import FoodItem from '../../components/FoodItem';
+import '../../styles/Home.styles.scss';
 
 const HomePage: React.FC = () => {
 	const [key, setKey] = useState<string | null>('breakfast');
@@ -24,14 +24,6 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div id='menu'>
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
