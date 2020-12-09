@@ -24,10 +24,10 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div id='menu'>
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
+					<FoodItem link='/user/food/1' />
+					<FoodItem link='/user/food/1' />
+					<FoodItem link='/user/food/1' />
+					<FoodItem link='/user/food/1' />
 				</div>
 			</main>
 		</motion.div>

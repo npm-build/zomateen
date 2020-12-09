@@ -4,6 +4,7 @@ import UserHome from './pages/User/Home.pages';
 import UserIndividualItem from './pages/User/IndividualItem.pages';
 import UserFavoritesPage from './pages/User/Favorites.pages';
 import AdminHome from './pages/Admin/Home.pages';
+import UpdateStocks from './pages/Admin/UpdateStocks.pages';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import './styles/Home.styles.scss';
@@ -22,7 +23,7 @@ function App() {
 						<Route path='/user/food/:foodId' exact component={UserIndividualItem} />
 						<Route path='/user/favorites' component={UserFavoritesPage} />
 						<Route path='/admin/home' component={AdminHome} />
-						{/* <Route path='/admin/home' component={AdminHome} /> */}
+						<Route path='/admin/updatestocks' component={UpdateStocks} />
 					</Switch>
 				</AnimatePresence>
 			</div>

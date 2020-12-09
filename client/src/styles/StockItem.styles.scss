@@ -1,0 +1,15 @@
+.stock-item {
+	height: 180px;
+	width: 180px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	border-radius: 10px;
+	box-shadow: 3px 7px 8px gray;
+
+	.stock-item-img {
+		width: 65px;
+		object-fit: contain;
+	}
+}
