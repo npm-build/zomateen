@@ -3,25 +3,24 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../DB/db';
 import { refreshTokenModel } from '../DB/models/refreshTokens';
-import { UserType, userModel } from '../DB/models/user';
+import { userModel } from '../DB/models/user';
+import { generateAccessToken } from '../utils/token';
 export const UserRouter = express.Router();
 
-const ACCESS_TOKEN_SECRET =
-	'b9b924fac76ced51b717c96b9dc465a68fbbb1396d93ff5b211e71219877e455f36110bd814a3a99858bce40ef552f63c438364ace5afcd8f8dcc2575799f1dd';
 const REFRESH_TOKEN_SECRET =
 	'aa1e207051c835692d4fb6c9f3073bb5e32e747c12baa3bc0a208c0c6383730466dc626e35fb0a0d64aa1aba5cd8b11e69c4e15df02e40caef7a930854b76e32';
 
-UserRouter.get('/users', async (req: Request, res: Response) => {
+UserRouter.get('/api/users', async (req: Request, res: Response) => {
 	const users = await userModel.find({});
 	res.send(users);
 });
 
-UserRouter.get('/dropDB', async (req: Request, res: Response) => {
+UserRouter.get('/api//user/dropDB', async (req: Request, res: Response) => {
 	await db.dropDatabase();
 	res.send({ msg: 'Db dropped' });
 });
 
-UserRouter.post('/user/login', async (req: Request, res: Response) => {
+UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
 	const name = req.body.name;
 	const userPass = req.body.password;
 	console.log('getting info');
@@ -47,11 +46,11 @@ UserRouter.post('/user/login', async (req: Request, res: Response) => {
 		.catch(err => res.send({ error: 'Error logging in!!!', msg: err }));
 });
 
-UserRouter.get('/user/logout', (req: Request, res: Response) => {
+UserRouter.get('/api/user/logout', (req: Request, res: Response) => {
 	res.send('LogOut');
 });
 
-UserRouter.post('/user/signup', async (req: Request, res: Response) => {
+UserRouter.post('/api/user/signup', async (req: Request, res: Response) => {
 	const { name, usn, bodypassword } = req.body;
 	await userModel
 		.findOne({ name })
@@ -74,7 +73,7 @@ UserRouter.post('/user/signup', async (req: Request, res: Response) => {
 		});
 });
 
-UserRouter.patch('/user/forgotpassword', async (req: Request, res: Response) => {
+UserRouter.patch('/api/user/forgotpassword', async (req: Request, res: Response) => {
 	const name = req.body.name;
 	const usn = req.body.usn;
 	const password = req.body.password;
@@ -88,7 +87,7 @@ UserRouter.patch('/user/forgotpassword', async (req: Request, res: Response) => 
 	});
 });
 
-UserRouter.post('/token', async (req, res) => {
+UserRouter.post('/api/token', async (req, res) => {
 	const refresh_token = req.body.token;
 	if (refresh_token === null) return res.sendStatus(401);
 
@@ -103,24 +102,3 @@ UserRouter.post('/token', async (req, res) => {
 		}
 	});
 });
-
-function generateAccessToken(doc: UserType) {
-	console.log(doc);
-	const user = { name: doc!.name, usn: doc!.usn, password: doc!.password };
-	return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '40m' });
-}
-
-// function authenticateToken(req: any, res: Response, next: NextFunction) {
-// 	const authHeader = req.headers['authorization'];
-// 	const token = authHeader!.split(' ')[1];
-
-// 	if (token === null) return res.sendStatus(401);
-
-// 	jwt.verify(token, ACCESS_TOKEN_SECRET, (err: any, doc: any): any => {
-// 		if (err) return res.sendStatus(403);
-
-// 		const user = { name: doc.name, usn: doc.usn, password: doc.password };
-// 		req.user = user;
-// 		next();
-// 	});
-// }

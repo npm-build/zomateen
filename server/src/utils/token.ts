@@ -1,0 +1,27 @@
+import { NextFunction, Response } from 'express';
+import { UserType } from '../DB/models/user';
+import jwt from 'jsonwebtoken';
+
+const ACCESS_TOKEN_SECRET =
+	'b9b924fac76ced51b717c96b9dc465a68fbbb1396d93ff5b211e71219877e455f36110bd814a3a99858bce40ef552f63c438364ace5afcd8f8dcc2575799f1dd';
+
+export function generateAccessToken(doc: UserType) {
+	console.log(doc);
+	const user = { name: doc!.name, usn: doc!.usn, password: doc!.password };
+	return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '40m' });
+}
+
+export function authenticateToken(req: any, res: Response, next: NextFunction) {
+	const authHeader = req.headers['authorization'];
+	const token = authHeader!.split(' ')[1];
+
+	if (token === null) return res.sendStatus(401);
+
+	jwt.verify(token, ACCESS_TOKEN_SECRET, (err: any, doc: any): any => {
+		if (err) return { err: 'Error verifying access token', code: 403 };
+
+		const user = { name: doc.name, usn: doc.usn, password: doc.password };
+		req.user = user;
+		next();
+	});
+}
