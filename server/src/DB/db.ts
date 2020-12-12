@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const DBURI = 'mongodb://localhost:27017/users';
 
-mongoose.connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 export const db = mongoose.connection;
 

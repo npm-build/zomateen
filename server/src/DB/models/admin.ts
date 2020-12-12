@@ -2,9 +2,9 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface AdminType extends Document {
 	collegeId: string;
-	first_name: string;
-	last_name: string;
-	user_name: string;
+	firstName: string;
+	lastName: string;
+	userName: string;
 	password: string;
 	phone: number;
 }

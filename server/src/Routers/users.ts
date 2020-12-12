@@ -1,10 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../DB/db';
 import { refreshTokenModel } from '../DB/models/refreshTokens';
 import { userModel } from '../DB/models/user';
-import { generateAccessToken } from '../utils/token';
+import { generateAccessTokenUser } from '../utils/token';
 export const UserRouter = express.Router();
 
 const REFRESH_TOKEN_SECRET =
@@ -33,7 +33,7 @@ UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
 			bcrypt.compare(userPass, currentUser.password, async (err, result) => {
 				if (result) {
 					const user = { name: currentUser.name, usn: currentUser.usn, password: currentUser.password };
-					const access_token = generateAccessToken(currentUser);
+					const access_token = generateAccessTokenUser(currentUser);
 					const refresh_token = jwt.sign(user, REFRESH_TOKEN_SECRET);
 
 					const refreshToken = new refreshTokenModel({ token: refresh_token });
@@ -46,8 +46,18 @@ UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
 		.catch(err => res.send({ error: 'Error logging in!!!', msg: err }));
 });
 
-UserRouter.get('/api/user/logout', (req: Request, res: Response) => {
-	res.send('LogOut');
+UserRouter.delete('/api/user/logout', async (req: Request, res: Response) => {
+	const refresh_token = req.body.token;
+	await refreshTokenModel
+		.deleteOne({ token: refresh_token })
+		.then((resp: any) => {
+			console.log(resp);
+			res.send('Logged out');
+		})
+		.catch((e: Error) => {
+			console.log(e);
+			return res.send({ error: 'Error logging out', msg: e });
+		});
 });
 
 UserRouter.post('/api/user/signup', async (req: Request, res: Response) => {
@@ -60,7 +70,7 @@ UserRouter.post('/api/user/signup', async (req: Request, res: Response) => {
 				if (err) return res.status(500).send({ error: err.message });
 
 				const user = new userModel({ name, usn, password: hashedPassword });
-				await user.validate(err => {
+				user.validate(err => {
 					if (err) res.send({ error: err });
 				});
 				await user.save();
@@ -96,7 +106,7 @@ UserRouter.post('/api/token', async (req, res) => {
 		if (refresh_token === token) {
 			jwt.verify(refresh_token, REFRESH_TOKEN_SECRET, (err: any, currentUser: any) => {
 				if (err) return res.sendStatus(403);
-				const access_token = generateAccessToken(currentUser);
+				const access_token = generateAccessTokenUser(currentUser);
 				res.json({ accessToken: access_token });
 			});
 		}

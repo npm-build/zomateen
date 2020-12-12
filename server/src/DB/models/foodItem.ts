@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 
 export interface FoodType extends Document {
 	name: string;
-	food_id: number;
+	foodId: number;
 	tags: string[];
 	price: number;
 	isAvailable: boolean;
@@ -18,7 +18,7 @@ export const FoodSchema: Schema = new Schema({
 	price: { type: Number, required: true },
 	isAvailable: { type: Boolean, required: true },
 	day: { type: String, required: true },
-	reviews: [{ type: { userName: String, review: String } }],
+	reviews: [{ userName: String, review: String }],
 	addOns: [String]
 });
 
