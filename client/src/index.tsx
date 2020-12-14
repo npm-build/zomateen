@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import Routers from './Routers';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from 'react-cookie';
 import './styles/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<Routers />
-		</BrowserRouter>
+		<CookiesProvider>
+			<BrowserRouter>
+				<Routers />
+			</BrowserRouter>
+		</CookiesProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

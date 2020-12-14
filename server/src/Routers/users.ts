@@ -21,18 +21,22 @@ UserRouter.get('/api//user/dropDB', async (req: Request, res: Response) => {
 });
 
 UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
-	const name = req.body.name;
+	const userName = req.body.userName;
 	const userPass = req.body.password;
 	console.log('getting info');
 
 	await userModel
-		.findOne({ name })
+		.findOne({ userName })
 		.then(currentUser => {
 			if (currentUser === null) return res.sendStatus(404);
 
 			bcrypt.compare(userPass, currentUser.password, async (err, result) => {
 				if (result) {
-					const user = { name: currentUser.name, usn: currentUser.usn, password: currentUser.password };
+					const user = {
+						userName: currentUser.userName,
+						usn: currentUser.usn,
+						password: currentUser.password
+					};
 					const access_token = generateAccessTokenUser(currentUser);
 					const refresh_token = jwt.sign(user, REFRESH_TOKEN_SECRET);
 
@@ -61,34 +65,28 @@ UserRouter.delete('/api/user/logout', async (req: Request, res: Response) => {
 });
 
 UserRouter.post('/api/user/signup', async (req: Request, res: Response) => {
-	const { name, usn, bodypassword } = req.body;
-	await userModel
-		.findOne({ name })
-		.then(dbUser => {
-			console.log(dbUser);
-			return bcrypt.hash(bodypassword, 7, async (err, hashedPassword) => {
-				if (err) return res.status(500).send({ error: err.message });
+	const { firstName, lastName, phone, userName, usn, password } = req.body;
+	const bodypassword = password;
 
-				const user = new userModel({ name, usn, password: hashedPassword });
-				user.validate(err => {
-					if (err) res.send({ error: err });
-				});
-				await user.save();
-				res.send({ message: 'Account created successfully!! Please LogIn' });
-			});
-		})
-		.catch(e => {
-			console.log(e);
-			return res.status(401).send({ error: 'Error creating user' });
-		});
+	await userModel.findOne({ userName }).then(dbUser => {
+		dbUser
+			? res.send({ message: 'User already exists' })
+			: bcrypt.hash(bodypassword, 7, async (err, hashedPassword) => {
+					if (err) return res.status(500).send({ error: err.message });
+
+					const user = new userModel({ firstName, lastName, phone, userName, usn, password: hashedPassword });
+					await user.save();
+					return res.send({ message: 'Account created successfully!! Please LogIn' });
+			  });
+	});
 });
 
 UserRouter.patch('/api/user/forgotpassword', async (req: Request, res: Response) => {
-	const name = req.body.name;
+	const userName = req.body.userName;
 	const usn = req.body.usn;
 	const password = req.body.password;
 
-	await userModel.updateOne({ name, usn }, { password }, { runValidators: true }, (err, resp) => {
+	await userModel.updateOne({ userName, usn }, { password }, { runValidators: true }, (err, resp) => {
 		if (err) {
 			return res.send({ error: 'Error updating password!!!' });
 		} else {

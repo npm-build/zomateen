@@ -1,9 +1,12 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface UserType extends Document {
-	name: string;
+	firstName: string;
+	lastName: string;
+	userName: string;
 	usn: string;
 	password: string;
+	phone: number;
 	noOfCancels: number;
 }
 
@@ -14,8 +17,7 @@ export const userSchema: Schema = new Schema({
 	usn: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	phone: { type: Number, required: true, unique: true },
-	noOfCancels: { type: Number, default: 0 },
-	reviews: [String]
+	noOfCancels: { type: Number, default: 0 }
 });
 
 // Creating the Models
