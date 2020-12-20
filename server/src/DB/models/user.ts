@@ -8,6 +8,7 @@ export interface UserType extends Document {
 	password: string;
 	phone: number;
 	noOfCancels: number;
+	favorites: string[];
 }
 
 export const userSchema: Schema = new Schema({
@@ -17,7 +18,8 @@ export const userSchema: Schema = new Schema({
 	usn: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	phone: { type: Number, required: true, unique: true },
-	noOfCancels: { type: Number, default: 0 }
+	noOfCancels: { type: Number, default: 0 },
+	favorites: [String]
 });
 
 // Creating the Models

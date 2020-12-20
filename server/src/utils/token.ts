@@ -17,16 +17,20 @@ export function generateAccessTokenAdmin(doc: AdminType) {
 }
 
 export function authenticateToken(req: any, res: Response, next: NextFunction) {
-	const authHeader = req.headers['authorization'];
+	const token = req.headers.authorization.split(' ')[1];
 
-	if (!authHeader) return res.sendStatus(401);
-	const token = authHeader!.split(' ')[1];
-
-	if (token === null) return res.sendStatus(401);
+	if (token === null) {
+		console.log('Token is null');
+		return res.sendStatus(401);
+	}
 
 	jwt.verify(token, ACCESS_TOKEN_SECRET, (err: any, doc: any): any => {
-		if (err) return { err: 'Error verifying access token', code: 403 };
+		if (err) {
+			console.log(err);
+			return { err: 'Error verifying access token', code: 403 };
+		}
 
+		console.log(doc);
 		const user = { userName: doc.userName, usn: doc.usn, password: doc.password };
 		req.user = user;
 		next();

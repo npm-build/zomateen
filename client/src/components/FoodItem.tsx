@@ -5,7 +5,19 @@ import { pageVariants, pageTransition } from '../utils/Animations';
 import { motion } from 'framer-motion';
 import '../styles/FoodItem.styles.scss';
 
-const FoodItem: React.FC<{ link: string }> = ({ link }) => {
+interface FoodType {
+	name: string;
+	foodId: number;
+	tags: string[];
+	filePath: string;
+	price: number;
+	isAvailable: boolean;
+	day: string;
+	reviews: { userName: string; review: string }[];
+	addOns: string[];
+}
+
+const FoodItem: React.FC<{ link: string; data: FoodType }> = ({ link, data }) => {
 	return (
 		<motion.div
 			initial='initial'
@@ -19,9 +31,9 @@ const FoodItem: React.FC<{ link: string }> = ({ link }) => {
 			<Link to={link}>
 				<img className='food-item-img' src={dosa} alt='dosa' />
 				<div className='text-holder'>
-					<h5 className='food-item-title'>Masala&nbsp;Dosa</h5>
+					<h5 className='food-item-title'>{data.name}</h5>
 					<p>
-						<span className='food-item-price'>Rs&nbsp;40</span>
+						<span className='food-item-price'>Rs&nbsp;{data.price}</span>
 						<span className='food-item-rating'>4&nbsp;Star</span>
 					</p>
 				</div>

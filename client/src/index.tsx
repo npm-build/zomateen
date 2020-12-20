@@ -3,17 +3,21 @@ import ReactDOM from 'react-dom';
 import Routers from './Routers';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { CookiesProvider } from 'react-cookie';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import allReducers from './utils/reducers';
 import './styles/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const store = createStore(allReducers);
+
 ReactDOM.render(
 	<React.StrictMode>
-		<CookiesProvider>
+		<Provider store={store}>
 			<BrowserRouter>
 				<Routers />
 			</BrowserRouter>
-		</CookiesProvider>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

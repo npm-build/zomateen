@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import { db } from '../DB/db';
 import { authenticateToken } from '../utils/token';
 import { FoodModel } from '../DB/models/foodItem';
+import { UploadedFile } from 'express-fileupload';
+
 export const FoodRouter = express.Router();
 
 FoodRouter.get('/api/getfoodies', authenticateToken, async (req: Request, res: Response) => {
@@ -9,7 +11,7 @@ FoodRouter.get('/api/getfoodies', authenticateToken, async (req: Request, res: R
 	res.send(foodies);
 });
 
-FoodRouter.get('/api/food/dropDB', authenticateToken, authenticateUser, async (req: Request, res: Response) => {
+FoodRouter.get('/api/food/dropDB', async (req: Request, res: Response) => {
 	await db.dropDatabase();
 	res.send({ msg: 'Db dropped' });
 });
@@ -17,6 +19,22 @@ FoodRouter.get('/api/food/dropDB', authenticateToken, authenticateUser, async (r
 FoodRouter.post('/api/food/add', authenticateToken, authenticateUser, async (req: Request, res: Response) => {
 	const { name, foodId, tags, price, isAvailable, day } = req.body;
 
+	if (!req.files) {
+		return res.status(400).json({ msg: 'No file uploaded' });
+	}
+
+	const file: UploadedFile = req.files['filePath'] as UploadedFile;
+
+	file.mv(`${__dirname}/uploads`, err => {
+		console.log('moving...');
+		if (err) {
+			console.error(err);
+			return res.status(500).send(err);
+		}
+		console.log('done moving...');
+	});
+
+	const filePath = `${__dirname}/uploads`;
 	await FoodModel.findOne({ name })
 		.then(async food => {
 			if (food?.name == name) {
@@ -28,17 +46,25 @@ FoodRouter.post('/api/food/add', authenticateToken, authenticateUser, async (req
 			return res.status(401).send({ error: e });
 		});
 
-	const foodItem = new FoodModel({ name, foodId, tags, isAvailable, price, day });
+	const foodItem = new FoodModel({
+		name,
+		foodId,
+		tags,
+		filePath,
+		isAvailable,
+		price,
+		day
+	});
 
 	await foodItem
 		.save()
 		.then(resp => {
 			console.log(resp);
-			res.send({ message: 'Food Item Added successfully' });
+			return res.send({ message: 'Food Item Added successfully' });
 		})
 		.catch((e: Error) => {
 			console.log(e);
-			res.status(401).send({ error: e });
+			return res.status(401).send({ error: e });
 		});
 });
 
@@ -88,6 +114,7 @@ FoodRouter.delete('/api/food/delete', authenticateToken, authenticateUser, async
 function authenticateUser(req: any, res: Response, next: NextFunction) {
 	const user = req.user;
 	if (user.usn) {
+		console.log('Error authenticating user!!!');
 		return res.send('Error authenticating user!!!');
 	} else next();
 }

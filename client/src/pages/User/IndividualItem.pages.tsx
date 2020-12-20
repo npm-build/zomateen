@@ -60,11 +60,11 @@ const IndividualItem: React.FC<any> = ({ match }) => {
 				</div>
 
 				<div className='individual-food-item-similar-food'>
+					{/* <FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
 					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
-					<FoodItem link='/food/1' />
+					<FoodItem link='/food/1' /> */}
 				</div>
 			</main>
 		</motion.div>

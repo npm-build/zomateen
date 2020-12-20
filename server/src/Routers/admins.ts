@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../DB/db';
 import { refreshTokenModel } from '../DB/models/refreshTokens';
-import { AdminType, AdminModel } from '../DB/models/admin';
+import { AdminModel } from '../DB/models/admin';
 import { generateAccessTokenAdmin } from '../utils/token';
 export const AdminRouter = express.Router();
 
@@ -104,7 +104,7 @@ AdminRouter.patch('/api/admin/forgotpassword', async (req: Request, res: Respons
 	});
 });
 
-AdminRouter.post('/api/token', async (req, res) => {
+AdminRouter.post('/api/admin/token', async (req, res) => {
 	const refresh_token = req.body.token;
 	if (refresh_token === null) return res.sendStatus(401);
 

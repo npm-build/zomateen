@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../DB/db';
 import { refreshTokenModel } from '../DB/models/refreshTokens';
+import { authenticateToken } from '../utils/token';
 import { userModel } from '../DB/models/user';
 import { generateAccessTokenUser } from '../utils/token';
 export const UserRouter = express.Router();
@@ -15,9 +16,14 @@ UserRouter.get('/api/users', async (req: Request, res: Response) => {
 	res.send(users);
 });
 
-UserRouter.get('/api//user/dropDB', async (req: Request, res: Response) => {
+UserRouter.get('/api/user/dropDB', async (req: Request, res: Response) => {
 	await db.dropDatabase();
 	res.send({ msg: 'Db dropped' });
+});
+
+UserRouter.get('/api/user/getUser', authenticateToken, async (req: any, res: Response) => {
+	const user = req.user;
+	res.send(user);
 });
 
 UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
@@ -95,7 +101,7 @@ UserRouter.patch('/api/user/forgotpassword', async (req: Request, res: Response)
 	});
 });
 
-UserRouter.post('/api/token', async (req, res) => {
+UserRouter.post('/api/user/token', async (req, res) => {
 	const refresh_token = req.body.token;
 	if (refresh_token === null) return res.sendStatus(401);
 
