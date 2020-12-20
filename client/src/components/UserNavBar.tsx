@@ -11,21 +11,6 @@ const NavBar: React.FC = () => {
 	useEffect(() => {
 		const sideNav = document.querySelector('#sidenav');
 		const burger = document.querySelector('#burger');
-		// const navLinks = document.querySelectorAll('#nav-links a li');
-		// const body = document.querySelector('body');
-		// const width = window.screen.width;
-
-		// if (width < 900) {
-		// navLinks.forEach(link => {
-		// 	link.addEventListener('click', () => {
-		// 		//to stop scrolling
-		// 		body!.classList.toggle('fixed-position');
-		// 		// Toggle Nav
-		// 		nav!.classList.toggle('open');
-		// 		// Burger Animation
-		// 		burger!.classList.toggle('toggle');
-		// 	});
-		// });
 
 		burger!.addEventListener('click', () => {
 			// Toggle Nav

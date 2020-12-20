@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Routers from './Routers';
-import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -14,9 +13,7 @@ const store = createStore(allReducers);
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<BrowserRouter>
-				<Routers />
-			</BrowserRouter>
+			<Routers />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')

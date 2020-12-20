@@ -26,12 +26,10 @@ FoodRouter.post('/api/food/add', authenticateToken, authenticateUser, async (req
 	const file: UploadedFile = req.files['filePath'] as UploadedFile;
 
 	file.mv(`${__dirname}/uploads`, err => {
-		console.log('moving...');
 		if (err) {
 			console.error(err);
 			return res.status(500).send(err);
 		}
-		console.log('done moving...');
 	});
 
 	const filePath = `${__dirname}/uploads`;
@@ -59,7 +57,6 @@ FoodRouter.post('/api/food/add', authenticateToken, authenticateUser, async (req
 	await foodItem
 		.save()
 		.then(resp => {
-			console.log(resp);
 			return res.send({ message: 'Food Item Added successfully' });
 		})
 		.catch((e: Error) => {

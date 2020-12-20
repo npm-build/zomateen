@@ -86,7 +86,7 @@ AdminRouter.post('/api/admin/signup', async (req: Request, res: Response) => {
 		});
 
 		await user.save();
-		res.send({ message: 'Account created successfully!! Please LogIn' });
+		return res.send({ message: 'Account created successfully!! Please LogIn' });
 	});
 });
 
@@ -114,7 +114,7 @@ AdminRouter.post('/api/admin/token', async (req, res) => {
 			jwt.verify(refresh_token, REFRESH_TOKEN_SECRET, (err: any, currentUser: any) => {
 				if (err) return res.sendStatus(403);
 				const access_token = generateAccessTokenAdmin(currentUser);
-				res.json({ accessToken: access_token });
+				return res.json({ accessToken: access_token });
 			});
 		}
 	});

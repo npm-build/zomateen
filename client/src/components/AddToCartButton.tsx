@@ -1,4 +1,4 @@
-import add from '../assets/img/plus.svg';
+import add from '../assets/img/add.svg';
 import '../styles/AddToCart.styles.scss';
 
 function AddToCartButton() {

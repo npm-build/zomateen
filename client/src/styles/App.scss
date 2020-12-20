@@ -10,6 +10,20 @@
 	}
 }
 
+.rem-btn {
+	height: 40px;
+	font-size: 20px;
+	padding: 0 20px;
+	border: 2px solid gray;
+	border-radius: 5px;
+	transition: all 205ms ease-in-out;
+	background-color: #fbb346;
+
+	&:focus {
+		outline: none;
+	}
+}
+
 // Login and Signup page styles
 
 .container {

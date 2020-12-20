@@ -1,8 +1,10 @@
 import { useState, ChangeEvent } from 'react';
 import Cookies from 'js-cookie';
 import { Formik, Field, Form, FieldArray } from 'formik';
+import { Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from 'axios';
+import '../../styles/UpdateItems.styles.scss';
 
 const App: React.FC = () => {
 	const accessToken = Cookies.get('accessToken');
@@ -22,7 +24,8 @@ const App: React.FC = () => {
 	});
 
 	return (
-		<div>
+		<div id='add-food'>
+			<h1>Add Food</h1>
 			<Formik
 				validateOnChange={true}
 				initialValues={{
@@ -69,40 +72,78 @@ const App: React.FC = () => {
 				}}
 			>
 				{({ values, errors, isSubmitting }) => (
-					<Form>
-						<Field type='text' placeholder='food item name' name='name' />
-						<Field type='number' placeholder='food id' name='foodId' />
-						<Field type='number' placeholder='food price' name='price' />
-						<Field name='isAvailable' type='checkbox' />
-						<Field type='text' placeholder='food item of the day' name='day' />
-						<input type='file' onChange={onChange} name='img' id='file' />
+					<Form id='add-form'>
+						<div className='form-input'>
+							<label htmlFor='name'>Name</label>
+							<Field className='form-group' type='text' placeholder='food item name' name='name' />
+						</div>
+
+						<div className='form-input'>
+							<label htmlFor='foodId'>Food ID</label>
+							<Field className='form-group' type='number' placeholder='food id' name='foodId' />
+						</div>
+
+						<div className='form-input'>
+							<label htmlFor='price'>Price</label>
+							<Field className='form-group' type='number' placeholder='food price' name='price' />
+						</div>
+
+						<div className='form-input'>
+							<label htmlFor='isAvailable'>In Stock? (default 'no')</label>
+							<Field className='form-group' name='isAvailable' type='checkbox' />
+						</div>
+
+						<div className='form-input'>
+							<label htmlFor='day'>Item of which day?</label>
+							<Field className='form-group' type='text' placeholder='food item of the day' name='day' />
+						</div>
+
+						<div className='form-input'>
+							<label htmlFor='img'>Food Image</label>
+							<input className='form-group' type='file' onChange={onChange} name='img' id='file' />
+						</div>
 
 						<FieldArray name='tags'>
 							{arrayHelpers => (
-								<div>
-									<button type='button' onClick={() => arrayHelpers.push('')}>
-										add tag
+								<div className='form-input'>
+									<button
+										className='btn'
+										style={{ maxHeight: '50px' }}
+										type='button'
+										onClick={() => arrayHelpers.push('')}
+									>
+										Add Tag
 									</button>
-									{values.tags.map((tag, index) => {
-										return (
-											<div key={index}>
-												<Field type='text' placeholder='tag' name={`tags.${index}`} />
+									<div className='tags'>
+										{values.tags.map((tag, index) => {
+											return (
+												<div className='tag' key={index}>
+													<Field
+														className='form-group'
+														type='text'
+														placeholder='tag'
+														name={`tags.${index}`}
+													/>
 
-												<button onClick={() => arrayHelpers.remove(index)}>x</button>
-											</div>
-										);
-									})}
+													<button
+														className='rem-btn'
+														onClick={() => arrayHelpers.remove(index)}
+													>
+														x
+													</button>
+												</div>
+											);
+										})}
+									</div>
 								</div>
 							)}
 						</FieldArray>
 
 						<div>
-							<button disabled={isSubmitting} type='submit'>
+							<Button variant='success' className='btn' disabled={isSubmitting} type='submit'>
 								submit
-							</button>
+							</Button>
 						</div>
-						<pre>{JSON.stringify(values, null, 2)}</pre>
-						<pre>{JSON.stringify(errors, null, 2)}</pre>
 					</Form>
 				)}
 			</Formik>

@@ -23,13 +23,12 @@ UserRouter.get('/api/user/dropDB', async (req: Request, res: Response) => {
 
 UserRouter.get('/api/user/getUser', authenticateToken, async (req: any, res: Response) => {
 	const user = req.user;
-	res.send(user);
+	return res.send(user);
 });
 
 UserRouter.post('/api/user/login', async (req: Request, res: Response) => {
 	const userName = req.body.userName;
 	const userPass = req.body.password;
-	console.log('getting info');
 
 	await userModel
 		.findOne({ userName })
@@ -61,7 +60,6 @@ UserRouter.delete('/api/user/logout', async (req: Request, res: Response) => {
 	await refreshTokenModel
 		.deleteOne({ token: refresh_token })
 		.then((resp: any) => {
-			console.log(resp);
 			res.send('Logged out');
 		})
 		.catch((e: Error) => {
@@ -111,7 +109,7 @@ UserRouter.post('/api/user/token', async (req, res) => {
 			jwt.verify(refresh_token, REFRESH_TOKEN_SECRET, (err: any, currentUser: any) => {
 				if (err) return res.sendStatus(403);
 				const access_token = generateAccessTokenUser(currentUser);
-				res.json({ accessToken: access_token });
+				return res.json({ accessToken: access_token });
 			});
 		}
 	});
