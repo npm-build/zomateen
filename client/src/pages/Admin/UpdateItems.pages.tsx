@@ -16,11 +16,12 @@ const App: React.FC = () => {
 	};
 
 	const validationSchema = yup.object({
-		name: yup.string().required().max(10),
+		name: yup.string().required().max(20),
 		foodId: yup.number().required().min(1),
+		price: yup.number().required().min(1),
 		isAvailable: yup.boolean(),
 		day: yup.string().required().max(10),
-		tags: yup.array().of(yup.string().max(7))
+		tags: yup.array().of(yup.string().max(12))
 	});
 
 	return (
@@ -77,32 +78,26 @@ const App: React.FC = () => {
 							<label htmlFor='name'>Name</label>
 							<Field className='form-group' type='text' placeholder='food item name' name='name' />
 						</div>
-
 						<div className='form-input'>
 							<label htmlFor='foodId'>Food ID</label>
 							<Field className='form-group' type='number' placeholder='food id' name='foodId' />
 						</div>
-
 						<div className='form-input'>
 							<label htmlFor='price'>Price</label>
 							<Field className='form-group' type='number' placeholder='food price' name='price' />
 						</div>
-
 						<div className='form-input'>
 							<label htmlFor='isAvailable'>In Stock? (default 'no')</label>
 							<Field className='form-group' name='isAvailable' type='checkbox' />
 						</div>
-
 						<div className='form-input'>
 							<label htmlFor='day'>Item of which day?</label>
 							<Field className='form-group' type='text' placeholder='food item of the day' name='day' />
 						</div>
-
 						<div className='form-input'>
 							<label htmlFor='img'>Food Image</label>
 							<input className='form-group' type='file' onChange={onChange} name='img' id='file' />
 						</div>
-
 						<FieldArray name='tags'>
 							{arrayHelpers => (
 								<div className='form-input'>
@@ -138,7 +133,7 @@ const App: React.FC = () => {
 								</div>
 							)}
 						</FieldArray>
-
+						{console.log(errors)}
 						<div>
 							<Button variant='success' className='btn' disabled={isSubmitting} type='submit'>
 								submit

@@ -5,7 +5,7 @@ import AddFood from './pages/Admin/UpdateItems.pages';
 import UpdateStocks from './pages/Admin/UpdateStocks.pages';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Switch, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+// import { AnimatePresence } from 'framer-motion';
 import './styles/Home.styles.scss';
 
 function App() {
@@ -16,13 +16,13 @@ function App() {
 			<AdminNavbar />
 			<AdminHeader />
 			<div id='content'>
-				<AnimatePresence exitBeforeEnter>
-					<Switch location={location} key={location.pathname}>
-						<ProtectedRoute path='/admin/home' isExact={true} Component={AdminHome} />
-						<ProtectedRoute path='/admin/addfood' isExact={true} Component={AddFood} />
-						<ProtectedRoute path='/admin/updatestocks' isExact={true} Component={UpdateStocks} />
-					</Switch>
-				</AnimatePresence>
+				{/* <AnimatePresence exitBeforeEnter> */}
+				<Switch location={location} key={location.pathname}>
+					<ProtectedRoute path='/admin/home' isExact={true} Component={AdminHome} />
+					<ProtectedRoute path='/admin/addfood' isExact={true} Component={AddFood} />
+					<ProtectedRoute path='/admin/updatestocks' isExact={true} Component={UpdateStocks} />
+				</Switch>
+				{/* </AnimatePresence> */}
 			</div>
 		</div>
 	);

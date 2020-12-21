@@ -5,7 +5,7 @@ export interface FoodType extends Document {
 	foodId: number;
 	tags: string[];
 	price: number;
-	isAvailable: boolean;
+	isAvailable: string;
 	day: string;
 	filePath: string;
 	reviews: { userName: string; review: string }[];
@@ -18,7 +18,7 @@ export const FoodSchema: Schema = new Schema({
 	tags: [{ type: String }],
 	filePath: { type: String, required: true, unique: true },
 	price: { type: Number, required: true },
-	isAvailable: { type: Boolean, required: true },
+	isAvailable: { type: String, required: true },
 	day: { type: String, required: true },
 	reviews: [{ userName: String, review: String }],
 	addOns: [String]

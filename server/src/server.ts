@@ -7,7 +7,13 @@ import './DB/db';
 
 const app = express();
 app.use(express.json());
-app.use(fileUpload());
+app.use(
+	fileUpload({
+		preserveExtension: true,
+		useTempFiles: true,
+		createParentPath: true
+	})
+);
 app.use('/src/uploads', express.static('./src/uploads'));
 app.use(UserRouter);
 app.use(FoodRouter);

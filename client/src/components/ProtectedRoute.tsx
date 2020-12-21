@@ -14,5 +14,9 @@ export const ProtectedRoute: FC<{ path: string; isExact: boolean; Component: FC 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	return <Route path={path} exact={isExact} component={Component} />;
+	return (
+		<Route path={path} exact={isExact}>
+			<Component />
+		</Route>
+	);
 };
