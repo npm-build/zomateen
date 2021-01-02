@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
 
 import LoginPageBack from "../../assets/img/loginPageBack.png";
+import vectorBack from "../../assets/img/vector-back.png";
 import "../../styles/App.scss";
 // import { motion } from 'framer-motion';
 
@@ -65,36 +66,41 @@ const LoginPage: React.FC = () => {
       <div className="loginPage__picture">
         <img className="login___picture" src={LoginPageBack} alt="Img" />
       </div>
-      <div className="loginPage__input">
-        <div className="header">Login</div>
-        <div className="info">
-          <div className="form">
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                ref={userNameRef}
-                type="text"
-                name="username"
-                placeholder="Username"
-              />
-            </div>
+      <div
+        className="loginPageContent"
+        style={{ backgroundImage: `url("${vectorBack}")` }}
+      >
+        <div className="loginPage__input">
+          <div className="header">Login</div>
+          <div className="info">
+            <div className="form">
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  ref={userNameRef}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                ref={passwordRef}
-                type="password"
-                name="password"
-                placeholder="Password"
-              />
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  ref={passwordRef}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="footer">
-          <button onClick={handleLogin} className="btn">
-            Login
-          </button>
+          <div className="footer">
+            <button onClick={handleLogin} className="btn">
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </div>
