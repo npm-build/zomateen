@@ -1,38 +1,63 @@
-import React from 'react';
-import dosa from '../assets/img/dosa.png';
-import { Dropdown } from 'react-bootstrap';
-import '../styles/StockItem.styles.scss';
+import React, { useState } from "react";
+import axios from "axios";
+import Cookie from "js-cookie";
+import { Button } from "react-bootstrap";
+import "../styles/StockItem.styles.scss";
 
-const StockItem: React.FC<{ inStock: boolean }> = ({ inStock }) => {
-	return (
-		<div className='stock-item'>
-			<img src={dosa} alt='' className='stock-item-img' />
-			<h4>Masala Dosa</h4>
-			{inStock ? (
-				<Dropdown>
-					<Dropdown.Toggle variant='success' id='dropdown-basic'>
-						In Stock
-					</Dropdown.Toggle>
+interface FoodType {
+  name: string;
+  foodId: number;
+  tags: string[];
+  price: number;
+  isAvailable: string;
+  day: string;
+  filePath: string;
+  reviews: { userName: string; review: string }[];
+  addOns: string[];
+}
 
-					<Dropdown.Menu>
-						<Dropdown.Item href='#'>In Stock</Dropdown.Item>
-						<Dropdown.Item href='#'>Out of Stock</Dropdown.Item>
-					</Dropdown.Menu>
-				</Dropdown>
-			) : (
-				<Dropdown>
-					<Dropdown.Toggle variant='danger' id='dropdown-basic'>
-						In Stock
-					</Dropdown.Toggle>
+const StockItem: React.FC<{ data: FoodType }> = ({ data }) => {
+  const accessToken = Cookie.get("accessToken");
+  const [foodItem, setFoodItem] = useState<{
+    foodId: number;
+    isAvailable: string;
+  }>();
 
-					<Dropdown.Menu>
-						<Dropdown.Item href='#'>In Stock</Dropdown.Item>
-						<Dropdown.Item href='#'>Out of Stock</Dropdown.Item>
-					</Dropdown.Menu>
-				</Dropdown>
-			)}
-		</div>
-	);
+  async function handleToggle() {
+    setFoodItem({
+      foodId: data.foodId,
+      isAvailable: data.isAvailable === "true" ? "false" : "true",
+    });
+
+    await axios
+      .patch("/api/food/update", foodItem, {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  }
+
+  return (
+    <div className="stock-item">
+      <img
+        src={`http://localhost:8000/${data.filePath}`}
+        alt="img"
+        className="stock-item-img"
+      />
+      <h4>{data.name}</h4>
+      {data.isAvailable === "true" ? (
+        <Button onClick={handleToggle} variant="danger">
+          Out of Stock?
+        </Button>
+      ) : (
+        <Button onClick={handleToggle} variant="success">
+          In Stock?
+        </Button>
+      )}
+    </div>
+  );
 };
 
 export default StockItem;

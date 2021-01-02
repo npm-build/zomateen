@@ -1,46 +1,42 @@
-import dosa from '../assets/img/dosa.png';
-import AddToCartBtn from '../components/AddToCartButton';
-import { Link } from 'react-router-dom';
-import { pageVariants, pageTransition } from '../utils/Animations';
-import { motion } from 'framer-motion';
-import '../styles/FoodItem.styles.scss';
+import AddToCartBtn from "../components/AddToCartButton";
+import { useHistory } from "react-router-dom";
+import { pageVariants, pageTransition } from "../utils/Animations";
+import { motion } from "framer-motion";
+import { FoodType } from "../utils/Types";
+import "../styles/FoodItem.styles.scss";
 
-interface FoodType {
-	name: string;
-	foodId: number;
-	tags: string[];
-	filePath: string;
-	price: number;
-	isAvailable: boolean;
-	day: string;
-	reviews: { userName: string; review: string }[];
-	addOns: string[];
-}
-
-const FoodItem: React.FC<{ link: string; data: FoodType }> = ({ link, data }) => {
-	return (
-		<motion.div
-			initial='initial'
-			animate='in'
-			exit='out'
-			variants={pageVariants}
-			transition={pageTransition}
-			whileHover={{ scale: 1.1 }}
-			className='food-item'
-		>
-			<Link to={link}>
-				<img className='food-item-img' src={dosa} alt='dosa' />
-				<div className='text-holder'>
-					<h5 className='food-item-title'>{data.name}</h5>
-					<p>
-						<span className='food-item-price'>Rs&nbsp;{data.price}</span>
-						<span className='food-item-rating'>4&nbsp;Star</span>
-					</p>
-				</div>
-			</Link>
-			<AddToCartBtn />
-		</motion.div>
-	);
+const FoodItem: React.FC<{ link: string; data: FoodType }> = ({
+  link,
+  data,
+}) => {
+  const history = useHistory();
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      whileHover={{ scale: 1.1 }}
+      className="food-item"
+    >
+      <button onClick={() => history.push(link)}>
+        <img
+          className="food-item-img"
+          src={`http://localhost:8000/${data.filePath}`}
+          alt="dosa"
+        />
+        <div className="text-holder">
+          <h5 className="food-item-title">{data.name}</h5>
+          <p>
+            <span className="food-item-price">Rs&nbsp;{data.price}</span>
+            <span className="food-item-rating">4&nbsp;Star</span>
+          </p>
+        </div>
+      </button>
+      <AddToCartBtn />
+    </motion.div>
+  );
 };
 
 export default FoodItem;
