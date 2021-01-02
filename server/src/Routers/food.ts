@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
+import { UploadedFile } from "express-fileupload";
+
 import { db } from "../DB/db";
 import { authenticateToken } from "../utils/token";
 import { FoodModel } from "../DB/models/foodItem";
-import { UploadedFile } from "express-fileupload";
+import { CartModel } from "../DB/models/cart";
 
 export const FoodRouter = express.Router();
 
@@ -20,9 +22,7 @@ FoodRouter.post(
   authenticateToken,
   async (req: Request, res: Response) => {
     const { foodId } = req.body;
-    console.log(req.body);
     const food = await FoodModel.findOne({ foodId });
-    console.log(food);
     return res.send(food);
   }
 );
@@ -31,6 +31,29 @@ FoodRouter.get("/api/food/dropDB", async (req: Request, res: Response) => {
   await db.dropDatabase();
   res.send({ msg: "Db dropped" });
 });
+
+FoodRouter.post(
+  "/api/food/addtocart",
+  authenticateToken,
+  async (req: Request, res: Response) => {
+    const foodId = req.body.foodId;
+
+    CartModel.updateOne({}, { $push: { foodIds: foodId } }, () => {
+      console.log("Food Item Added to cart successfully");
+      return res.send({ message: "Food Item Added to cart successfully" });
+    });
+  }
+);
+
+FoodRouter.get(
+  "/api/food/cartitems",
+  authenticateToken,
+  async (req: Request, res: Response) => {
+    const foodies = await CartModel.find({});
+    console.log(foodies);
+    res.send(foodies);
+  }
+);
 
 FoodRouter.post(
   "/api/food/add",

@@ -89,7 +89,7 @@ const Signup: React.FC = () => {
         style={{ backgroundImage: `url("${vectorBack}")` }}
       >
         <div className="registerPage__input">
-          <div className="header">Register</div>
+          <div className="header">User Register</div>
           <div className="register-info">
             <div className="register-form">
               <div className="register-form-group">

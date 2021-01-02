@@ -3,6 +3,7 @@ import UserNavbar from "./components/UserNavBar";
 import UserHome from "./pages/User/Home.pages";
 import UserIndividualItem from "./pages/User/IndividualItem.pages";
 import UserFavoritesPage from "./pages/User/Favorites.pages";
+import UserCartPage from "./pages/User/ShoppingCart.pages";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 // import { AnimatePresence } from "framer-motion";
@@ -40,6 +41,11 @@ function App() {
             path="/user/favorites"
             isExact={true}
             Component={UserFavoritesPage}
+          />
+          <ProtectedRoute
+            path="/user/cart"
+            isExact={true}
+            Component={UserCartPage}
           />
         </Switch>
         {/* </AnimatePresence> */}

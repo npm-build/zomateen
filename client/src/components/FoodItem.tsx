@@ -34,7 +34,7 @@ const FoodItem: React.FC<{ link: string; data: FoodType }> = ({
           </p>
         </div>
       </button>
-      <AddToCartBtn />
+      <AddToCartBtn fdId={data.foodId} />
     </motion.div>
   );
 };

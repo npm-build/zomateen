@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-// import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { Tabs, Tab } from "react-bootstrap";
 import FoodItem from "../../components/FoodItem";
 import { FoodType } from "../../utils/Types";
 import "../../styles/Home.styles.scss";
 import axios from "axios";
+// import { motion } from "framer-motion";
 
 const HomePage: React.FC = () => {
   const [key, setKey] = useState<string | null>("breakfast");
-  const [foods, setFoods] = useState<FoodType[]>();
+  const [foodItems, setFoodItems] = useState<FoodType[]>();
   const accessToken = Cookies.get("accessToken");
 
-  async function getFood() {
+  async function getFoodItems() {
     await axios
       .get("/api/getfoodies", {
         headers: {
@@ -21,7 +21,8 @@ const HomePage: React.FC = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setFoods(res.data);
+        localStorage.setItem("foodItems", res.data);
+        setFoodItems(res.data);
       })
       .catch((e) => {
         console.log(e);
@@ -30,7 +31,13 @@ const HomePage: React.FC = () => {
   }
 
   useEffect(() => {
-    getFood();
+    const foodies: string | null = localStorage.getItem("foodItems");
+
+    if (foodies) {
+      setFoodItems(JSON.parse(foodies));
+    } else {
+      getFoodItems();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,7 +59,7 @@ const HomePage: React.FC = () => {
         </div>
 
         <div id="menu">
-          {foods?.map((food) => (
+          {foodItems?.map((food) => (
             <FoodItem
               key={food.foodId}
               data={food}

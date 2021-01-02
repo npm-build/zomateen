@@ -18,7 +18,6 @@ const IndividualItem: React.FC<any> = ({ match }) => {
 
   const accessToken = Cookies.get("accessToken");
 
-  // Get the food using the FoodId from server
   const [food, setFood] = useState<FoodType>();
   const history = useHistory();
 
@@ -73,7 +72,7 @@ const IndividualItem: React.FC<any> = ({ match }) => {
                 <h5 className="individual-food-item-text-price">
                   Rs {food.price}
                 </h5>
-                <AddToCartBtn />
+                <AddToCartBtn fdId={food.foodId} />
               </div>
             </div>
           </div>
