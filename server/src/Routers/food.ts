@@ -3,8 +3,8 @@ import { UploadedFile } from "express-fileupload";
 
 import { db } from "../DB/db";
 import { authenticateToken } from "../utils/token";
-import { FoodModel } from "../DB/models/foodItem";
-import { CartModel } from "../DB/models/cart";
+import { FoodModel, FoodType } from "../DB/models/foodItem";
+import { CartModel, CartType } from "../DB/models/cart";
 
 export const FoodRouter = express.Router();
 
@@ -36,12 +36,23 @@ FoodRouter.post(
   "/api/food/addtocart",
   authenticateToken,
   async (req: Request, res: Response) => {
-    const foodId = req.body.foodId;
+    const foodId: number = req.body.foodId;
 
-    CartModel.updateOne({}, { $push: { foodIds: foodId } }, () => {
-      console.log("Food Item Added to cart successfully");
-      return res.send({ message: "Food Item Added to cart successfully" });
+    const foodItem: CartType = new CartModel({
+      foodId,
     });
+
+    await foodItem
+      .save()
+      .then((resp) => {
+        console.log("Food Item Added to cart successfully");
+        return res.send({ message: "Food Item Added to cart successfully" });
+      })
+      .catch((e: Error) => {
+        return res
+          .status(401)
+          .send({ error: "Error adding food item to cart" });
+      });
   }
 );
 
@@ -50,8 +61,42 @@ FoodRouter.get(
   authenticateToken,
   async (req: Request, res: Response) => {
     const foodies = await CartModel.find({});
-    console.log(foodies);
-    res.send(foodies);
+    const realFoodies = await FoodModel.find({});
+
+    const cartFoodies: FoodType[] = [];
+
+    for (const food of realFoodies) {
+      foodies?.some(({ foodId }) => {
+        if (food.foodId === foodId) {
+          cartFoodies.push(food);
+        }
+      });
+    }
+
+    console.log(cartFoodies);
+    return res.send(cartFoodies);
+  }
+);
+
+FoodRouter.delete(
+  "/api/food/cartitems",
+  authenticateToken,
+  async (req: Request, res: Response) => {
+    const foodId = req.body.foodId;
+    console.log(foodId);
+
+    await CartModel.deleteOne({ foodId })
+      .then(() => {
+        console.log("Food Item successfully deleted from cart");
+        return res.send({
+          message: "Food Item successfully deleted from cart",
+        });
+      })
+      .catch((e: Error) => {
+        return res
+          .status(401)
+          .send({ error: "Error deleting food item from cart" });
+      });
   }
 );
 

@@ -1,5 +1,6 @@
 import { FC, useEffect } from "react";
 import Cookies from "js-cookie";
+import { CartContextProvider } from "../utils/context/context";
 import { Route, useHistory } from "react-router-dom";
 
 export const ProtectedRoute: FC<{
@@ -20,7 +21,9 @@ export const ProtectedRoute: FC<{
 
   return (
     <Route path={path} exact={isExact}>
-      <Component />
+      <CartContextProvider>
+        <Component />
+      </CartContextProvider>
     </Route>
   );
 };

@@ -20,8 +20,8 @@ const HomePage: React.FC = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("foodItems", res.data);
+        console.log("Saved to local storage");
+        localStorage.setItem("foodItems", JSON.stringify(res.data));
         setFoodItems(res.data);
       })
       .catch((e) => {
@@ -31,14 +31,7 @@ const HomePage: React.FC = () => {
   }
 
   useEffect(() => {
-    const foodies: string | null = localStorage.getItem("foodItems");
-
-    if (foodies) {
-      setFoodItems(JSON.parse(foodies));
-    } else {
-      getFoodItems();
-    }
-
+    getFoodItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
