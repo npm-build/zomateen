@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, RefObject } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import { FoodType } from "../../utils/Types";
+import { FoodType, UserType } from "../../utils/Types";
 // import bg from "../../assets/img/cartbg.png";
 import cross from "../../assets/img/x.svg";
 import "../../styles/UserCart.styles.scss";
@@ -10,6 +10,24 @@ import "../../styles/UserCart.styles.scss";
 function ShoppingCart() {
   const accessToken = Cookies.get("accessToken");
   const [foodItems, setFoodItems] = useState<FoodType[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [user, setUser] = useState<UserType | null>(null);
+  const messagesRef: RefObject<HTMLInputElement> = useRef(null);
+
+  async function getCurrentUser() {
+    await axios
+      .get("/api/user/getUser", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 
   async function getCartItems() {
     await axios
@@ -27,19 +45,46 @@ function ShoppingCart() {
       });
   }
 
-  function calculateSum() {
-    let sum = 0;
+  async function placeOrder() {
+    const foodIds: number[] = [];
 
     for (const food of foodItems) {
-      sum += food.price;
+      foodIds.push(food.foodId);
     }
 
-    return sum;
+    await axios
+      .post(
+        "/api/order/add",
+        {
+          foodIds,
+          customerName: user?.userName,
+          messages: messagesRef.current!.value,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  }
+
+  function calculateSum(quantity: number) {
+    let sum = 0;
+    console.log(quantity);
+
+    for (const food of foodItems) {
+      sum += food.price * quantity;
+    }
+
+    setTotal(sum);
   }
 
   useEffect(() => {
+    getCurrentUser();
     getCartItems();
-
+    calculateSum(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,7 +92,9 @@ function ShoppingCart() {
     <main id="cart-page">
       <div id="cart-head">
         <h1>Your Orders</h1>
-        <button id="cart-order">Place Order</button>
+        <button onClick={() => placeOrder()} id="cart-order">
+          Place Order
+        </button>
       </div>
       <div id="cart-body">
         <div id="cart-content">
@@ -56,13 +103,15 @@ function ShoppingCart() {
               key={food.foodId}
               foodItem={food}
               onDelete={() => getCartItems()}
+              calculateSum={calculateSum}
             />
           ))}
+          <input type="text" name="message" ref={messagesRef} />
         </div>
         <hr />
         <div id="cart-total">
           <h1>Total:</h1>
-          <h2>Rs {calculateSum()}</h2>
+          <h2>Rs {total}</h2>
         </div>
       </div>
     </main>
@@ -71,11 +120,13 @@ function ShoppingCart() {
 
 export default ShoppingCart;
 
-const CartItem: React.FC<{ foodItem: FoodType; onDelete: () => void }> = ({
-  foodItem,
-  onDelete,
-}) => {
+const CartItem: React.FC<{
+  foodItem: FoodType;
+  onDelete: () => void;
+  calculateSum: (quantity: number) => void;
+}> = ({ foodItem, onDelete, calculateSum }) => {
   const accessToken = Cookies.get("accessToken");
+  const [quantity, setQuantity] = useState(1);
 
   async function removeFromCart() {
     await axios
@@ -89,15 +140,43 @@ const CartItem: React.FC<{ foodItem: FoodType; onDelete: () => void }> = ({
         console.log(res);
         onDelete();
       });
+
+    setQuantity(0);
   }
+
+  useEffect(() => {
+    calculateSum(quantity);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity]);
+
   return (
     <div className="cart-item">
       <div className="div-1">
         <img src={`http://localhost:8000/${foodItem.filePath}`} alt="img" />
-        <h1>{foodItem.name}</h1>
+        <div className="cart-name">
+          <h1>{foodItem.name}</h1>
+          <p>
+            Quantity -{" "}
+            <input
+              type="number"
+              onChange={(e) => {
+                if (
+                  !isNaN(parseInt(e.target.value)) &&
+                  parseInt(e.target.value) > 0
+                ) {
+                  return setQuantity(parseInt(e.target.value));
+                }
+              }}
+              value={quantity}
+            />
+          </p>
+        </div>
       </div>
       <div className="div-2">
-        <p>Rs {foodItem.price}</p>
+        <p>
+          Rs <span className="cash">{foodItem.price}</span>
+        </p>
         <button onClick={() => removeFromCart()}>
           <img src={cross} alt="img" />
         </button>

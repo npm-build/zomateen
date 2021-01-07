@@ -1,9 +1,9 @@
-#cart-page {
+#favorites-page {
   display: flex;
   flex-direction: column;
   margin: 50px;
 
-  #cart-head {
+  #favorites-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,7 +13,7 @@
       font-family: sans-serif;
     }
 
-    #cart-order {
+    #favorites-order {
       height: 40px;
       font-size: 20px;
       padding: 0 20px;
@@ -28,7 +28,7 @@
     }
   }
 
-  #cart-body {
+  #favorites-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -38,8 +38,8 @@
     background-color: whitesmoke;
     min-height: 400px;
 
-    #cart-content {
-      .cart-item {
+    #favorites-content {
+      .favorite {
         background-color: #ffffff;
         padding: 20px;
         border-radius: 10px;

@@ -9,3 +9,14 @@ export interface FoodType {
   reviews: { userName: string; review: string }[];
   addOns: string[];
 }
+
+export interface UserType {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  usn: string;
+  password: string;
+  phone: number;
+  noOfCancels: number;
+  favorites: number[];
+}

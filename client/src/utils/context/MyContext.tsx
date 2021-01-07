@@ -1,22 +1,43 @@
-import { createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
+import { UserType } from "../Types";
+
 const accessToken = Cookies.get("accessToken");
 
-export interface CartContextInterface {
+interface MyContextInterface {
   addToCart: (fdId: number) => void;
-  saveCartToLocalStorage: (props: void) => void;
-  saveCartToDB: (props: void) => void;
+  saveCartToLocalStorage: () => void;
+  saveCartToDB: () => void;
   removeFromCart: (fdId: number) => void;
+  currentUser: UserType | null;
 }
 
-const CartContext = createContext<CartContextInterface | null>(null);
+const MyContext = createContext<MyContextInterface | null>(null);
 
-export const CartContextProvider: React.FC = ({ children }) => {
+export const MyContextProvider: React.FC = ({ children }) => {
+  const [currentUser, setcurrentUser] = useState<UserType | null>(null);
   let cartContents: number[] = [];
-  //   const [cartOwner, setCartOwner] = useState<string>();
-  //   const [loading, setLoading] = useState(true);
+
+  async function getCurrentUser() {
+    await axios
+      .get("/api/user/getUser", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setcurrentUser(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   async function addToCart(fdId: number) {
     console.log("Added to Cart");
@@ -82,13 +103,14 @@ export const CartContextProvider: React.FC = ({ children }) => {
   }
 
   const value = {
+    currentUser,
     addToCart,
     saveCartToLocalStorage,
     removeFromCart,
     saveCartToDB,
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
 };
 
-export default CartContext;
+export default MyContext;

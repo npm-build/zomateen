@@ -7,7 +7,8 @@ import axios from "axios";
 import back from "../../assets/img/arrow-left.svg";
 import UserReview from "../../components/UserReview";
 // import { pageVariants, pageTransition } from "../../utils/Animations";
-import { FoodType } from "../../utils/Types";
+import { FoodType, UserType } from "../../utils/Types";
+import heart from "../../assets/img/heart.svg";
 import AddToCartBtn from "../../components/AddToCartButton";
 import "../../styles/IndividualItem.styles.scss";
 
@@ -17,9 +18,25 @@ const IndividualItem: React.FC<any> = ({ match }) => {
   } = match;
 
   const accessToken = Cookies.get("accessToken");
-
+  const [image, setImage] = useState(false);
   const [food, setFood] = useState<FoodType>();
+  const [user, setUser] = useState<UserType | null>(null);
   const history = useHistory();
+
+  async function getCurrentUser() {
+    await axios
+      .get("/api/user/getUser", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 
   async function getFood() {
     console.log(foodId);
@@ -37,7 +54,42 @@ const IndividualItem: React.FC<any> = ({ match }) => {
       .catch((e) => console.log(e));
   }
 
+  async function handleToggle() {
+    image
+      ? await axios
+          .patch(
+            "/api/user/deletefromfavorites",
+            { usn: user?.usn, foodId },
+            {
+              headers: {
+                Authorization: "Bearer " + accessToken,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            setImage(false);
+          })
+          .catch((e) => console.error(e))
+      : await axios
+          .patch(
+            "/api/user/addtofavorites",
+            { usn: user?.usn, foodId },
+            {
+              headers: {
+                Authorization: "Bearer " + accessToken,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            setImage(true);
+          })
+          .catch((e) => console.error(e));
+  }
+
   useEffect(() => {
+    getCurrentUser();
     getFood();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,11 +111,23 @@ const IndividualItem: React.FC<any> = ({ match }) => {
       {food && (
         <main className="individual-food-item-content">
           <div className="item">
-            <img
-              className="individual-food-item-img"
-              src={`http://localhost:8000/${food.filePath}`}
-              alt="food img"
-            />
+            <div className="individual-food-img">
+              <img
+                className="individual-food-item-img"
+                src={`http://localhost:8000/${food.filePath}`}
+                alt="food img"
+              />
+              <button
+                onClick={() => handleToggle()}
+                className="individual-food-item-img-btn"
+              >
+                {image ? (
+                  <i className="fas fa-heart" />
+                ) : (
+                  <img src={heart} alt="favorite" />
+                )}
+              </button>
+            </div>
             <div className="individual-food-item-text">
               <h5 className="individual-food-item-text-title">{food.name}</h5>
               <h5 className="individual-food-item-text-rating">4 Star</h5>

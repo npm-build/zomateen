@@ -1,21 +1,31 @@
 import { Schema, model, Document } from "mongoose";
+import autoIncrement from "mongoose-auto-increment";
 
 export interface OrderType extends Document {
   foodIds: number[];
-  customerNames: string[];
-  OrderId: number;
-  Messages: string;
+  customerNames: string;
+  orderId: number;
+  messages: string;
+  status: string;
   isCompleted: boolean;
   dateOfOrder: Date;
 }
 
 export const OrderSchema: Schema = new Schema({
-  foodIds: [{ type: Number, required: true, unique: true }],
-  customerNames: [{ type: String, required: true }],
-  OrderId: { type: Number, required: true },
-  Messages: String,
-  isCompleted: { type: Boolean, required: true },
+  foodIds: [{ type: Number, required: true }],
+  customerName: { type: String, required: true },
+  orderId: { type: Number, default: 0 },
+  messages: String,
+  status: { type: String, default: "Order Placed" },
+  isCompleted: { type: Boolean, default: false },
   dateOfOrder: { type: Date, default: Date() },
 });
 
-export const OrderModel = model<OrderType>("admin", OrderSchema);
+OrderSchema.plugin(autoIncrement.plugin, {
+  model: "order",
+  field: "orderId",
+  startAt: 1,
+  incrementBy: 1,
+});
+
+export const OrderModel = model<OrderType>("order", OrderSchema);

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 
-import useCartContext from "../utils/context/context";
+import useMyContext from "../utils/context/MyContext";
 import add from "../assets/img/add.svg";
 import "../styles/AddToCart.styles.scss";
 
 const AddToCartButton: React.FC<{ fdId: number }> = ({ fdId }) => {
-  const value = useContext(useCartContext);
+  const value = useContext(useMyContext);
 
   async function AddToCart() {
     value?.addToCart(fdId);
