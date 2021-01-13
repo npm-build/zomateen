@@ -50,9 +50,13 @@ OrderRouter.patch(
   // authenticateUser,
   async (req: Request, res: Response) => {
     const { orderId, status, isCompleted } = req.body;
+    console.log({ orderId, status, isCompleted });
 
     await OrderModel.updateOne({ orderId }, { status, isCompleted })
-      .then(() => res.send({ message: "Updated Order!!!" }))
+      .then(() => {
+        console.log("Updated Order!!!");
+        res.send({ message: "Updated Order!!!" });
+      })
       .catch((e: Error) => {
         console.error(e);
       });

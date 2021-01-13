@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import wallet from "../assets/img/wallet.svg";
 import home from "../assets/img/home.png";
 import favorite from "../assets/img/heart.svg";
@@ -7,8 +8,6 @@ import cart from "../assets/img/shopping-cart.svg";
 import "../styles/SideNavbar.styles.scss";
 
 const NavBar: React.FC = () => {
-  // NavBar Animation
-
   useEffect(() => {
     const sideNav = document.querySelector("#sidenav");
     const burger = document.querySelector("#burger");

@@ -43,15 +43,16 @@
 
     li {
       animation: fade_out 0.3s;
-      transform: translateX(30px);
+      transform: translateX(100px);
       visibility: hidden;
     }
   }
 }
 
 .open {
+  transition: all 0.3s ease;
   animation: fade_in 0.3s;
-  width: 226px;
+  width: 300px;
 
   img {
     margin: 20px 20px;

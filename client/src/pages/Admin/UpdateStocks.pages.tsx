@@ -30,7 +30,7 @@ const UpdateStocks: FC = () => {
     const item = { foodId: fdId, isAvailable: isAv };
     console.log("Changing!!!");
 
-    let oldItems = [...foodItems!];
+    const oldItems = [...foodItems!];
 
     oldItems?.filter((foodItem) => {
       if (foodItem.foodId === fdId)

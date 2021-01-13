@@ -106,7 +106,16 @@ function ShoppingCart() {
               calculateSum={calculateSum}
             />
           ))}
-          <input type="text" name="message" ref={messagesRef} />
+          <div id="msg">
+            <h3 id="msg-head">Any Message to be conveyed to your chef?</h3>
+            <input
+              id="msg-input"
+              type="text"
+              name="message"
+              placeholder="Example: Extra Spicy, Not too Oily"
+              ref={messagesRef}
+            />
+          </div>
         </div>
         <hr />
         <div id="cart-total">

@@ -20,3 +20,13 @@ export interface UserType {
   noOfCancels: number;
   favorites: number[];
 }
+
+export interface OrderType {
+  foodIds: number[];
+  customerNames: string;
+  orderId: number;
+  messages: string;
+  status: string;
+  isCompleted: boolean;
+  dateOfOrder: Date;
+}
