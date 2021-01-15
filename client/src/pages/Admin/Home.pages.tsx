@@ -82,15 +82,39 @@ const Home: React.FC = () => {
       .catch((e) => console.error(e));
   }
 
+  async function handleCancel(id: number) {
+    const oldOrders = [...orders!];
+
+    // eslint-disable-next-line array-callback-return
+    oldOrders?.filter((ord) => {
+      if (ord.orderId !== id) return ord;
+    });
+
+    console.log(oldOrders);
+    setOrders(oldOrders);
+
+    await axios
+      .delete("/api/order/delete", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          orderId: id,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  }
+
   async function ChangeStatus(data: {
-    id: number;
+    orderId: number;
     status: string;
     isCompleted: boolean;
   }) {
     const oldOrders = [...orders!];
-
+    console.log(data);
     oldOrders?.filter((ord) => {
-      if (ord.orderId === data.id) return (ord.status = data.status);
+      if (ord.orderId === data.orderId) return (ord.status = data.status);
 
       return ord;
     });
@@ -114,9 +138,7 @@ const Home: React.FC = () => {
     setInProgressOrdersOrders(
       orders!.filter((order) => order.status === "In Progress")
     );
-    setReadyOrders(
-      orders!.filter((order) => order.status === "Ready for Pickup")
-    );
+    setReadyOrders(orders!.filter((order) => order.status === "Order Ready"));
   }
 
   useEffect(() => {
@@ -127,9 +149,7 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (orders) {
-      filterOrders();
-    }
+    if (orders) filterOrders();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders]);
@@ -150,11 +170,13 @@ const Home: React.FC = () => {
                   btnTxt: "Accept",
                   style: pendingStyles.AcceptBtnStyles,
                   handleClick: ChangeStatus,
+                  handleCancel,
                 },
                 {
                   btnTxt: "Cancel",
                   style: pendingStyles.CancelBtnStyles,
                   handleClick: ChangeStatus,
+                  handleCancel,
                 },
               ],
             }}
@@ -176,6 +198,7 @@ const Home: React.FC = () => {
                   btnTxt: "Done",
                   style: progressStyles.DoneBtnStyles,
                   handleClick: ChangeStatus,
+                  handleCancel,
                 },
               ],
             }}
@@ -197,6 +220,7 @@ const Home: React.FC = () => {
                   btnTxt: "Notify",
                   style: readyStyles.NotifyBtnStyles,
                   handleClick: ChangeStatus,
+                  handleCancel,
                 },
               ],
             }}

@@ -21,6 +21,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 10px;
+
+    .FPH-owner,
+    .FPH-btn {
+      display: flex;
+      flex-direction: column;
+    }
 
     h6 {
       font-weight: 600;
@@ -30,6 +37,7 @@
     p {
       font-weight: 600;
       font-size: 14px;
+      margin: 0;
       margin-top: 10px;
       margin-right: 20px;
     }
@@ -49,7 +57,6 @@
     }
 
     .FoodProgressText {
-      margin-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;

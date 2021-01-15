@@ -47,7 +47,7 @@ OrderRouter.post(
 OrderRouter.patch(
   "/api/order/update",
   authenticateToken,
-  // authenticateUser,
+  authenticateUser,
   async (req: Request, res: Response) => {
     const { orderId, status, isCompleted } = req.body;
     console.log({ orderId, status, isCompleted });
@@ -69,9 +69,11 @@ OrderRouter.delete(
   authenticateUser,
   async (req: Request, res: Response) => {
     const { orderId } = req.body;
+    console.log(orderId);
 
     await OrderModel.deleteOne({ orderId })
       .then(() => {
+        console.log("Order removed");
         return res.send({ message: "Order removed" });
       })
       .catch((e: Error) => {

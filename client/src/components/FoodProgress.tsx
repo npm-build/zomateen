@@ -7,45 +7,7 @@ import "../styles/FoodProgress.styles.scss";
 
 const FoodItem: React.FC<{
   food: FoodType;
-  btn: {
-    btnTxt: string;
-    style: any;
-    handleClick: (data: {
-      id: number;
-      status: string;
-      isCompleted: boolean;
-    }) => void;
-  }[];
-  order: OrderType;
-}> = ({ food, btn, order }) => {
-  const [data, setData] = useState<{
-    id: number;
-    status: string;
-    isCompleted: boolean;
-  } | null>(null);
-
-  function setMyData() {
-    if (btn[0].btnTxt === "Accept") {
-      setData({
-        id: order.orderId,
-        status: "In Progress",
-        isCompleted: false,
-      });
-    } else if (btn[0].btnTxt === "Done") {
-      setData({
-        id: order.orderId,
-        status: "Order Ready",
-        isCompleted: false,
-      });
-    }
-  }
-
-  useEffect(() => {
-    setMyData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+}> = ({ food }) => {
   return (
     <div className="FoodProgressContent">
       <img
@@ -58,16 +20,6 @@ const FoodItem: React.FC<{
       </div>
       <div className="FoodProgressExtra">
         <h4>In Cash</h4>
-        {btn.map((b) => (
-          <button
-            key={b.btnTxt}
-            style={b.style}
-            onClick={() => b.handleClick(data!)}
-            className="food-progress-btn"
-          >
-            {b.btnTxt}
-          </button>
-        ))}
       </div>
     </div>
   );
@@ -80,10 +32,11 @@ const FoodProgress: React.FC<{
       btnTxt: string;
       style: any;
       handleClick: (data: {
-        id: number;
+        orderId: number;
         status: string;
         isCompleted: boolean;
       }) => void;
+      handleCancel: (id: number) => void;
     }[];
   };
   order: OrderType;
@@ -93,6 +46,33 @@ const FoodProgress: React.FC<{
   const [requiredFoodItems, setRequiredFoodItems] = useState<FoodType[] | null>(
     null
   );
+  const [data, setData] = useState<{
+    orderId: number;
+    status: string;
+    isCompleted: boolean;
+  } | null>(null);
+
+  function setMyData() {
+    if (prp.btn[0].btnTxt === "Accept") {
+      setData({
+        orderId: order.orderId,
+        status: "In Progress",
+        isCompleted: false,
+      });
+    } else if (prp.btn[0].btnTxt === "Done") {
+      setData({
+        orderId: order.orderId,
+        status: "Order Ready",
+        isCompleted: false,
+      });
+    } else {
+      setData({
+        orderId: order.orderId,
+        status: "Cancel",
+        isCompleted: false,
+      });
+    }
+  }
 
   function getFood() {
     const local = localStorage.getItem("foodItems");
@@ -132,6 +112,7 @@ const FoodProgress: React.FC<{
   }, []);
 
   useEffect(() => {
+    setMyData();
     if (foodItems) filterFood();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,11 +122,30 @@ const FoodProgress: React.FC<{
     <div className="FoodProgress">
       <div style={prp.progressStyle} className="progress-bar" />
       <div className="FoodProgressHead">
-        <h6>#{order.orderId}</h6>
-        <p>Roshan Jose</p>
+        <div className="FPH-owner">
+          <h6>#{order.orderId}</h6>
+          <p>Roshan Jose</p>
+        </div>
+        <div className="FPH-btn">
+          {prp.btn.map((b) => (
+            <button
+              key={b.btnTxt}
+              style={b.style}
+              onClick={() =>
+                b.btnTxt === "Cancel"
+                  ? b.handleCancel(order.orderId)
+                  : b.handleClick(data!)
+              }
+              className="food-progress-btn"
+            >
+              {b.btnTxt}
+            </button>
+          ))}
+        </div>
       </div>
+
       {requiredFoodItems?.map((food) => (
-        <FoodItem key={food.foodId} btn={prp.btn} order={order} food={food} />
+        <FoodItem key={food.foodId} food={food} />
       ))}
     </div>
   );
